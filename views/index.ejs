@@ -12,43 +12,34 @@
     img {
       width:90%;
     }
-
-    .row {
-      width:100%;
+    .price {
+      font-size:3em;
+    }
+    .panel-heading {
+      font-size:3em;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="row">
+
+    <% for(var i=0; i<items.length; i++) {%> 
       <div class="col-md-6">
         <div class="panel panel-default">
         <div class="panel-heading">
-          <%= items[0].name %>
+          <%= items[i].name %>
         </div>
         <div class="panel-body">
-          <img src='img/<%= items[0].filename %>.png'><br>
-          <%= items[0].value %><br>
-          <%= items[0].category %><br>
+          <img src='img/<%= items[i].filename %>.png'><br>
+          <span class="price">$<%= items[i].value %></span><br>
+          <%= items[i].description %><br>
+          <!-- <%= items[i].category %><br> -->
         </div>
        </div>
       </div>
-      <div class="col-md-6">
-        <div class="panel panel-default">
-        <div class="panel-heading">
-          <%= items[0].name %>
-        </div>
-        <div class="panel-body">
-          <img src='img/<%= items[0].filename %>.png'><br>
-          <%= items[0].value %><br>
-          <%= items[0].category %><br>
-        </div>
-        </div>
-      </div>
-    
-    <!-- <% for(var i=0; i<items.length; i++) {%> -->
-      
-    <!-- <% } %> -->
+    <% } %>
+
   </div>
 </body>
 </html>

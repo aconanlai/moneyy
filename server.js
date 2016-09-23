@@ -21,13 +21,16 @@ MongoClient.connect(config.mongodb_uri, (err, database) => {
 });
 
 app.get('/', (req, res) => {
-  db.collection('items').find().toArray((err, result) => {
+  const first = Math.floor(Math.random() * 10) + 1;
+  let second = Math.floor(Math.random() * 10) + 1;
+  while (first === second) {
+    second = Math.floor(Math.random() * 10) + 1;
+  }
+  db.collection('items').find({ $or: [{ key: first.toString() }, { key: second.toString() }] }).toArray((err, result) => {
     if (err) return console.log(err);
     // renders index.ejs
     console.log(result);
     res.render('index.ejs', { items: result });
   });
 });
-
-
 
