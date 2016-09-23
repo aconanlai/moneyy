@@ -16,10 +16,9 @@ MongoClient.connect(config.mongodb_uri, (err, database) => {
   if (err) return console.log(err);
   db = database;
   app.listen(process.env.PORT || 3000, () => {
-      console.log('listening  on 5000');
+      console.log('listening  on 3000');
   });
 });
-
 
 app.get('/', (req, res) => {
   db.collection('items').find().toArray((err, result) => {
