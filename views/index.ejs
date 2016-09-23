@@ -7,21 +7,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
   <link href="css/bootstrap-responsive.css" rel="stylesheet">
+  <!-- move this to css file later -->
+  <style>
+    img {
+      width:90%;
+    }
+
+    .row {
+      width:100%;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
-    <% for(var i=0; i<items.length; i++) {%>
-      <div class="panel panel-default">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="panel panel-default">
         <div class="panel-heading">
-          <%= items[i].name %>
+          <%= items[0].name %>
         </div>
         <div class="panel-body">
-          <img src='img/<%= items[i].filename %>.png'><br>
-          <%= items[i].value %><br>
-          <%= items[i].category %><br>
+          <img src='img/<%= items[0].filename %>.png'><br>
+          <%= items[0].value %><br>
+          <%= items[0].category %><br>
+        </div>
+       </div>
+      </div>
+      <div class="col-md-6">
+        <div class="panel panel-default">
+        <div class="panel-heading">
+          <%= items[0].name %>
+        </div>
+        <div class="panel-body">
+          <img src='img/<%= items[0].filename %>.png'><br>
+          <%= items[0].value %><br>
+          <%= items[0].category %><br>
+        </div>
         </div>
       </div>
-    <% } %>
+    
+    <!-- <% for(var i=0; i<items.length; i++) {%> -->
+      
+    <!-- <% } %> -->
   </div>
 </body>
 </html>
