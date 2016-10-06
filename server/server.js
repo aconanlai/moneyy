@@ -1,17 +1,11 @@
 const express = require('express');
-const React = require('react');
-
 const bodyParser = require('body-parser');
 const config = require('../config/config');
 const app = express();
 const path = require('path');
 const MongoClient = require('mongodb').MongoClient;
 
-
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('public'));
-app.set('views', __dirname + '../views');
-app.engine('jsx', require('express-react-views').createEngine());
 
 let db;
 
@@ -23,9 +17,7 @@ MongoClient.connect(config.mongodb_uri, (err, database) => {
   });
 });
 
-app.get('/', function(req, res) {
-  res.send('hello world');
-});
+app.use(express.static(path.resolve(__dirname, '../client')));
 
 
 // app.get('/', (req, res) => {

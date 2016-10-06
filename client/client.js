@@ -1,7 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import App from './components/App';
 
 ReactDOM.render(
-	<h1>shshs</h1>,
+  (
+  <App />
+),
   document.getElementById('container')
 );

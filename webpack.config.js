@@ -2,9 +2,9 @@ module.exports = {
 	stats: {
 		errorDetails: true
 	},
-	entry: "./client/components/Main.js",
+	entry: "./client/client.js",
 	output: {
-		path: "./public/js/",
+		path: "./client/js/",
 		filename: "bundle.js"
 	},
 	module: {
