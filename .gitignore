@@ -4,3 +4,6 @@ npm-debug.log
 
 # local db storage
 .mongodb
+
+# build files
+client/js/bundle.js
