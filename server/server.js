@@ -19,16 +19,15 @@ MongoClient.connect(config.mongodb_uri, (err, database) => {
 
 app.use(express.static(path.resolve(__dirname, '../client')));
 
-
-// app.get('/', (req, res) => {
-//   const first = Math.floor(Math.random() * 10) + 1;
-//   let second = Math.floor(Math.random() * 10) + 1;
-//   while (first === second) {
-//     second = Math.floor(Math.random() * 10) + 1;
-//   }
-//   db.collection('items').find({ $or: [{ key: first.toString() }, { key: second.toString() }] }).toArray((err, result) => {
-//     if (err) return console.log(err);
-//     // renders index.ejs
-//     res.render('../views/index.jsx', { items: result });
-//   });
-// });
+app.get('/items', (req, res) => {
+  const first = Math.floor(Math.random() * 10) + 1;
+  let second = Math.floor(Math.random() * 10) + 1;
+  while (first === second) {
+    second = Math.floor(Math.random() * 10) + 1;
+  }
+  db.collection('items').find({ $or: [{ key: first.toString() }, { key: second.toString() }] }).toArray((err, result) => {
+    if (err) return console.log(err);
+    // renders index.ejs
+    res.send(result);
+  });
+});
