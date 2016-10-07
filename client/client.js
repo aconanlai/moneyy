@@ -6,5 +6,5 @@ ReactDOM.render(
   (
   <App />
 ),
-  document.getElementById('container')
+  document.getElementsByClassName('container-fluid')[0]
 );

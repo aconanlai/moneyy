@@ -5,7 +5,11 @@ import Item from './Item/Item.js';
 class App extends React.Component {
   render() {
     return (
-      <Item name="dog" imgurl="hottub.png" price="99" description="this is a dog" />
+      <div className="row">
+        <h1>Which Costs More?</h1>
+        <Item name="dog" imgurl="hottub.png" price="99" description="this is a dog" />
+        <Item name="dog" imgurl="hottub.png" price="99" description="this is a dog" />
+      </div>
     )
   }
 }
