@@ -21,7 +21,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --legacy-watch ./server/server.js",
     "webpack-watch": "webpack -w",
-    "start": "concurrent --kill-others \"npm run webpack-watch\" \"nodemon -e js,ejs,css ./server/server.js\""
+    "start": "concurrent --kill-others \"npm run webpack-watch\" \"nodemon -e js,css ./server/server.js\""
   },
   "author": "",
   "license": "ISC",
