@@ -1,0 +1,13 @@
+.itemwrapper {
+  width:80%;
+  margin:0 auto;
+}
+
+.item {
+  display: inline-block;
+  width:50%;
+}
+
+.pic {
+  width:100%;
+}

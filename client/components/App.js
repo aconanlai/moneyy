@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Item from './Item/Item.js';
+import Header from './Header/Header';
+import ItemWrapper from './Items/ItemWrapper';
+import Footer from './Footer/Footer';
 
 class App extends React.Component {
 // constructor sets initial state
@@ -9,9 +11,13 @@ class App extends React.Component {
     this.state = {
       item1: {},
       item2: {},
+      timeleft: 60000,
     };
+    this.fetchItems = this.fetchItems.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
-// componentDidmount fires right after component mounts onto DOM
+
+// componentDidMount fires right after component mounts onto DOM
 // see React component lifecycle documentation
 //
 // here we use fetch API to get two random items, see our server.js
@@ -19,7 +25,19 @@ class App extends React.Component {
 //
 // the return is an array with two items, set our state objects to be these
 
+// load items when component is mounted
   componentDidMount() {
+    this.fetchItems();
+  }
+
+// handle the click operation
+// TODO - check for correctness - maybe loading state?
+  handleClick() {
+    this.fetchItems();
+  }
+
+// fetch from our api endpoint
+  fetchItems() {
     fetch('/items').then((response) => {
       return response.json();
     }).then((json) => {
@@ -35,12 +53,12 @@ class App extends React.Component {
     const item1 = this.state.item1;
     const item2 = this.state.item2;
     return (
-      <div className="row">
-        <h1>Which Costs More?</h1>
-        <Item {...item1} />
-        <Item {...item2} />
+      <div>
+        <Header />
+        <ItemWrapper handleClick={this.handleClick} item1={item1} item2={item2} />
+        <Footer />
       </div>
-    )
+    );
   }
 }
 

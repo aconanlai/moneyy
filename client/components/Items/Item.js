@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import styles from './Item.css';
 
 // Item component presents a single Item
 // the const filepath is ES6 template literal for constructing our image filepath string
@@ -13,14 +13,14 @@ class Item extends React.Component {
   render() {
     const filepath = `img/${this.props.filename}.png`;
     return (
-      <div className="col-md-6">
-        <div className="panel panel-default">
-          <div className="panel-heading">
+      <div className={styles.item}>
+        <div>
+          <div>
             {this.props.name}
           </div>
-          <div className="panel-body">
-            <img alt={this.props.imgurl} src={filepath} /><br />
-            <span className="price">${this.props.value}</span><br />
+          <div>
+            <img onClick={() => this.props.handleClick()} className={styles.pic} alt={this.props.imgurl} src={filepath} /><br />
+            <span>${this.props.value}</span><br />
             {this.props.description}
           </div>
         </div>
@@ -29,6 +29,13 @@ class Item extends React.Component {
   }
 }
 
+Item.propTypes = {
+  description: React.PropTypes.string,
+  handleClick: React.PropTypes.func,
+  imgurl: React.PropTypes.string,
+  name: React.PropTypes.string,
+  value: React.PropTypes.string,
+  filename: React.PropTypes.string,
+};
+
 export default Item;
-
-
