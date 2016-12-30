@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import Admin from './Admin/Admin';
 import Header from './Header/Header';
 import ItemWrapper from './Items/ItemWrapper';
 import Footer from './Footer/Footer';
@@ -50,13 +50,12 @@ class App extends React.Component {
 // is passed to the Item component as individual props
 
   render() {
-    const item1 = this.state.item1;
-    const item2 = this.state.item2;
+    // we do this hack for now until we decide if we want react router/authentication
+    const display = (window.location.href.includes('admin')) ? <Admin /> : <div><Header /><ItemWrapper handleClick={this.handleClick} item1={this.state.item1} item2={this.state.item2} />
+        <Footer /></div>;
     return (
       <div>
-        <Header />
-        <ItemWrapper handleClick={this.handleClick} item1={item1} item2={item2} />
-        <Footer />
+        {display}
       </div>
     );
   }

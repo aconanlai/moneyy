@@ -10,3 +10,6 @@ client/js/bundle.js
 
 #wireframes
 wireframe
+
+#secret
+config/secret.js

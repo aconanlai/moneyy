@@ -27,7 +27,17 @@ app.get('/items', (req, res) => {
   }
   db.collection('items').find({ $or: [{ key: first.toString() }, { key: second.toString() }] }).toArray((err, result) => {
     if (err) return console.log(err);
-    // renders index.ejs
     res.send(result);
   });
+});
+
+app.get('/allitems', (req, res) => {
+  db.collection('items').find().toArray((err, result) => {
+    if (err) return console.log(err);
+    res.send(result);
+  });
+});
+
+app.get('*', (request, response) => {
+  response.sendFile(path.resolve(__dirname, '../client', 'index.html'));
 });
