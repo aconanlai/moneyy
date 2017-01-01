@@ -18,10 +18,13 @@ class Admin extends React.Component {
     this.fetchAllItems = this.fetchAllItems.bind(this);
     this.handleNewImage = this.handleNewImage.bind(this);
     this.handleItemSelect = this.handleItemSelect.bind(this);
-    this.handleName = this.handleNewImage.bind(this);
+    this.handleName = this.handleName.bind(this);
     this.handleValue = this.handleValue.bind(this);
     this.handleCategory = this.handleCategory.bind(this);
     this.handleDesc = this.handleDesc.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleNew = this.handleNew.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
 // componentDidMount fires right after component mounts onto DOM
@@ -50,6 +53,72 @@ class Admin extends React.Component {
       category: selected.category,
       description: selected.description,
       id: selected._id,
+      editMode: 'edit',
+    });
+  }
+
+// switch to 'add new' editing mode, set all state to blank and editMode to 'add'
+// so submit button POST instead of PUT
+  handleNew() {
+    this.setState({
+      name: '',
+      filename: '',
+      value: '',
+      category: '',
+      description: '',
+      id: '',
+      editMode: 'add',
+    });
+  }
+
+// handles the submit button click event, either PUT or POST based on current editMode
+  handleSubmit() {
+    const payload = {
+      name: this.state.name,
+      filename: this.state.filename,
+      value: this.state.value,
+      category: this.state.category,
+      description: this.state.description,
+    };
+    const path = (this.state.editMode === 'add') ? '/items' : `/items/${this.state.id}`;
+    const meth = (this.state.editMode === 'add') ? 'post' : 'put';
+    const payloadJSON = JSON.stringify(payload);
+    fetch(path, {
+      method: meth,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: payloadJSON,
+    }).then((response) => {
+      return response.json();
+    }).then((json) => {
+      console.log(json);
+      // we fetch all items again since we've made changes, then call handleNew to switch to 'add new' mode and clear state
+      this.fetchAllItems();
+      this.handleNew();
+    })
+    .catch((error) => {
+      console.log('Request failed', error);
+    });
+  }
+
+  // handles the delete button click event
+  handleDelete() {
+    fetch(`/items/${this.state.id}`, {
+      method: 'delete',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    }).then((response) => {
+      return response.json();
+    }).then((json) => {
+      console.log(json);
+      // we fetch all items again since we've made changes, then call handleNew to switch to 'add new' mode and clear state
+      this.fetchAllItems();
+      this.handleNew();
+    })
+    .catch((error) => {
+      console.log('Request failed', error);
     });
   }
 
@@ -84,18 +153,21 @@ class Admin extends React.Component {
 // our render function passes our state as props into the children
 
   render() {
+    const deleteButton = (this.state.id === '') ? null : <button onClick={this.handleDelete}>delete this</button>
     return (
       <div>
-        select item: 
-        <select value={this.state.selectedItem} onChange={this.handleItemSelect}>
-            {this.state.items.map((item, i) => {
-              return (
-                <option key={i} value={i}>{item.name}</option>
-              );
-            })}
-          </select>
-
-          <div>name: <input value={this.state.name} onChange={this.handleName} /></div>
+      select item: 
+      <select value={this.state.selectedItem} onChange={this.handleItemSelect}>
+          {this.state.items.map((item, i) => {
+            return (
+              <option key={i} value={i}>{item.name}</option>
+            );
+          })}
+      </select>
+        <div><button onClick={this.handleSubmit}>submit this</button></div>
+        <div>{deleteButton}</div>
+        <div><button onClick={this.handleNew}>add new</button></div>
+        <div>name: <input value={this.state.name} onChange={this.handleName} /></div>
         <div>value: <input value={this.state.value} onChange={this.handleValue} /></div>
         <div>description: <textarea rows="10" cols="45" value={this.state.description} onChange={this.handleDesc} /></div>
         <div>category: <input value={this.state.category} onChange={this.handleCategory} /></div>
