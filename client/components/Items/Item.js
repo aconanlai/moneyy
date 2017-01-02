@@ -11,7 +11,6 @@ import styles from './Item.css';
 
 class Item extends React.Component {
   render() {
-    const filepath = `img/${this.props.filename}.png`;
     return (
       <div className={styles.item}>
         <div>
@@ -19,7 +18,7 @@ class Item extends React.Component {
             {this.props.name}
           </div>
           <div>
-            <img onClick={() => this.props.handleClick()} className={styles.pic} alt={this.props.imgurl} src={filepath} /><br />
+            <img onClick={() => this.props.handleClick()} className={styles.pic} alt={this.props.imgurl} src={this.props.filename} /><br />
             <span>${this.props.value}</span><br />
             {this.props.description}
           </div>

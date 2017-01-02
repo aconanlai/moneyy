@@ -4,15 +4,17 @@ const config = require('../config/config');
 
 const app = express();
 const path = require('path');
-const MongoClient = require('mongodb').MongoClient;
-const ObjectID = require('mongodb').ObjectID;
+const Promise = require('bluebird');
+const MongoDB = require('mongodb');
+
+Promise.promisifyAll(MongoDB);
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json({ extended: true }));
 
 let db;
 
-MongoClient.connect(config.mongodb_uri, (err, database) => {
+MongoDB.MongoClient.connect(config.mongodb_uri, (err, database) => {
   if (err) return console.log(err);
   db = database;
   app.listen(process.env.PORT || 3000, () => {
@@ -24,15 +26,30 @@ app.use(express.static(path.resolve(__dirname, '../client')));
 
 // this returns two random items
 app.get('/items', (req, res) => {
-  const first = Math.floor(Math.random() * 10) + 1;
-  let second = Math.floor(Math.random() * 10) + 1;
-  while (first === second) {
-    second = Math.floor(Math.random() * 10) + 1;
-  }
-  db.collection('items').find({ $or: [{ key: first.toString() }, { key: second.toString() }] }).toArray((err, result) => {
-    if (err) return console.log(err);
-    res.send(result);
+  const getItem = () => {
+    return new Promise((resolve, reject) => {
+      db.collection('items').aggregate(
+      { $sample: { size: 1 } },
+      (err, result) => {
+        if (err) return reject(err);
+        return resolve(result[0]);
+      });
+    });
+  };
+
+  Promise.all([getItem(), getItem()]).then(results => {
+    // All data available here in the order of the elements in the array
+    res.send(results)
   });
+  // const first = Math.floor(Math.random() * 10) + 1;
+  // let second = Math.floor(Math.random() * 10) + 1;
+  // while (first === second) {
+  //   second = Math.floor(Math.random() * 10) + 1;
+  // }
+  // db.collection('items').find({ $or: [{ key: first.toString() }, { key: second.toString() }] }).toArray((err, result) => {
+  //   if (err) return console.log(err);
+  //   res.send(result);
+  // });
 });
 
 // this returns all of our items
@@ -55,7 +72,7 @@ app.post('/items', (req, res) => {
 // this edits an item via ID passed as URL parameter
 app.put('/items/:id', (req, res) => {
   // need to use mongodb driver's ObjectID to compare id otherwise it compares as string
-  db.collection('items').findOneAndUpdate({ _id: ObjectID(req.params.id) }, req.body, (err, result) => {
+  db.collection('items').findOneAndUpdate({ _id: MongoDB.ObjectID(req.params.id) }, req.body, (err, result) => {
     if (err) console.log(err);
     console.log('edit item');
     res.json('success');
@@ -64,7 +81,7 @@ app.put('/items/:id', (req, res) => {
 
 // this deletes a one by id
 app.delete('/items/:id', (req, res) => {
-  db.collection('items').remove({ _id: ObjectID(req.params.id) }, (err, result) => {
+  db.collection('items').remove({ _id: MongoDB.ObjectID(req.params.id) }, (err, result) => {
     if (err) console.log(err);
     console.log('delete item');
     res.json('success');

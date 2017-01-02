@@ -49,7 +49,7 @@ class Admin extends React.Component {
     this.setState({
       name: selected.name,
       filename: selected.filename,
-      value: selected.filename,
+      value: selected.value,
       category: selected.category,
       description: selected.description,
       id: selected._id,
