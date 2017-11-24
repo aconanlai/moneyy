@@ -21,7 +21,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon --legacy-watch ./server/server.js",
     "webpack-watch": "webpack -w",
-    "start": "concurrent --kill-others \"npm run webpack-watch\" \"nodemon -e js,css ./server/server.js\""
+    "start": "concurrently --kill-others \"npm run webpack-watch\" \"nodemon -e js,css ./server/server.js\""
   },
   "author": "",
   "license": "ISC",
@@ -34,7 +34,6 @@
     "babel-preset-stage-0": "^6.16.0",
     "bluebird": "^3.4.7",
     "body-parser": "^1.15.2",
-    "concurrently": "^3.1.0",
     "css-loader": "^0.25.0",
     "ejs": "^2.5.1",
     "express": "^4.14.0",
@@ -50,6 +49,7 @@
     "webpack": "^1.13.2"
   },
   "devDependencies": {
+    "concurrently": "^3.5.1",
     "eslint": "^3.4.0",
     "eslint-config-airbnb": "^10.0.1",
     "eslint-plugin-import": "^1.14.0",
